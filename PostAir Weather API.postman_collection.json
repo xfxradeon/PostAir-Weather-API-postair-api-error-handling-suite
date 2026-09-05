@@ -1,0 +1,1200 @@
+{
+  "info": {
+    "_postman_id": "74be1843-c2b1-4b4d-9677-501ed5c4dd8a",
+    "name": "PostAir Weather API",
+    "description": "PostAir Weather API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "57482520",
+    "_collection_link": "https://go.postman.co/collection/57482520-74be1843-c2b1-4b4d-9677-501ed5c4dd8a?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "airports",
+      "item": [
+        {
+          "name": "Retrieve airport codes",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Specific Test 1: Verify airport list array structure\npm.test(\"Response returns array with airport data\", function () {\n    const jsonData = pm.response.json();\n    pm.expect(jsonData).to.be.an(\"array\");\n    pm.expect(jsonData[0]).to.have.property(\"country\");\n    pm.expect(jsonData[0]).to.have.property(\"airports\");\n    pm.expect(jsonData[0].airports[0]).to.have.property(\"code\");\n});\n\n// Specific Test 2: Verify airport code query match\npm.test(\"Response contains requested airport code\", function () {\n    const jsonData = pm.response.json();\n    const airportCodes = jsonData[0].airports.map(a => a.code);\n    pm.expect(airportCodes).to.include(\"ATL\");\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key",
+                  "type": "string"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}",
+                  "type": "string"
+                },
+                {
+                  "key": "in",
+                  "value": "header",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/airports?countryName=United States&airportCode=ATL",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "airports"
+              ],
+              "query": [
+                {
+                  "key": "countryName",
+                  "value": "United States"
+                },
+                {
+                  "key": "airportCode",
+                  "value": "ATL"
+                }
+              ]
+            },
+            "description": "Returns a list of airport codes"
+          },
+          "response": [
+            {
+              "name": "A list of airports",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/airports?countryName=United States&airportCode=ATL",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "airports"
+                  ],
+                  "query": [
+                    {
+                      "key": "countryName",
+                      "value": "United States"
+                    },
+                    {
+                      "description": "airport code",
+                      "key": "airportCode",
+                      "value": "ATL"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "x-correlation-id",
+                  "value": ""
+                }
+              ],
+              "cookie": [],
+              "body": "[\n  {\n    \"country\": \"United States\",\n    \"airports\": [\n      {\n        \"code\": \"ATL\",\n        \"city\": \"Atlanta\",\n        \"name\": \"Hartsfield-Jackson Atlanta International Airport\",\n        \"latitude\": 33.6407,\n        \"longitude\": -84.4277\n      },\n      {\n        \"code\": \"LAX\",\n        \"city\": \"Los Angeles\",\n        \"name\": \"Los Angeles International Airport\",\n        \"latitude\": 33.9416,\n        \"longitude\": -118.4085\n      }\n    ]\n  },\n  {\n    \"country\": \"Spain\",\n    \"airports\": [\n      {\n        \"code\": \"BCN\",\n        \"city\": \"Barcelona\",\n        \"name\": \"Josep Tarradellas Barcelona–El Prat Airport\",\n        \"latitude\": 41.2974,\n        \"longitude\": 2.0833\n      },\n      {\n        \"code\": \"MAD\",\n        \"city\": \"Madrid\",\n        \"name\": \"Adolfo Suárez Madrid–Barajas Airport\",\n        \"latitude\": 40.4893,\n        \"longitude\": -3.6827\n      }\n    ]\n  }\n]"
+            },
+            {
+              "name": "Unauthorized",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/airports?countryName=United States&airportCode=ATL",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "airports"
+                  ],
+                  "query": [
+                    {
+                      "key": "countryName",
+                      "value": "United States"
+                    },
+                    {
+                      "description": "airport code",
+                      "key": "airportCode",
+                      "value": "ATL"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"type\": \"https://en.wikipedia.org/wiki/HTTP_401\",\n  \"title\": \"Unauthorized\",\n  \"status\": 401,\n  \"detail\": \"Invalid or missing authentication credentials\",\n  \"instance\": \"urn:api:request:example-401\",\n  \"correlationId\": \"example-correlation-id\"\n}"
+            },
+            {
+              "name": "Forbidden",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/airports?countryName=United States&airportCode=ATL",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "airports"
+                  ],
+                  "query": [
+                    {
+                      "key": "countryName",
+                      "value": "United States"
+                    },
+                    {
+                      "description": "airport code",
+                      "key": "airportCode",
+                      "value": "ATL"
+                    }
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"type\": \"https://en.wikipedia.org/wiki/HTTP_403\",\n  \"title\": \"Forbidden\",\n  \"status\": 403,\n  \"detail\": \"Missing persmissions to access this resource\",\n  \"instance\": \"urn:api:request:example-403\",\n  \"correlationId\": \"example-correlation-id\"\n}"
+            },
+            {
+              "name": "Not found",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/airports?countryName=United States&airportCode=ATL",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "airports"
+                  ],
+                  "query": [
+                    {
+                      "key": "countryName",
+                      "value": "United States"
+                    },
+                    {
+                      "description": "airport code",
+                      "key": "airportCode",
+                      "value": "ATL"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"type\": \"https://en.wikipedia.org/wiki/HTTP_404\",\n  \"title\": \"Not Found\",\n  \"status\": 404,\n  \"detail\": \"The requested resource was not found.\",\n  \"instance\": \"urn:api:request:example-404\",\n  \"correlationId\": \"example-correlation-id\"\n}"
+            },
+            {
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/airports?countryName=United States&airportCode=ATL",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "airports"
+                  ],
+                  "query": [
+                    {
+                      "key": "countryName",
+                      "value": "United States"
+                    },
+                    {
+                      "description": "airport code",
+                      "key": "airportCode",
+                      "value": "ATL"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                },
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Content-Type",
+                  "value": ""
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"type\": \"https://en.wikipedia.org/wiki/HTTP_500\",\n  \"title\": \"Internal Server Error\",\n  \"status\": 500,\n  \"detail\": \"Internal Server Error\",\n  \"instance\": \"urn:api:request:example-500\",\n  \"correlationId\": \"example-correlation-id\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "turbulence",
+      "item": [
+        {
+          "name": "Retrieve turbulence report",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/turbulence?airportCode=ATL",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "turbulence"
+              ],
+              "query": [
+                {
+                  "description": "airport code",
+                  "key": "airportCode",
+                  "value": "ATL"
+                }
+              ]
+            },
+            "description": "Returns a list of turbulence reports"
+          },
+          "response": [
+            {
+              "name": "Retrieve a turbulence report",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/turbulence?airportCode=ATL",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "turbulence"
+                  ],
+                  "query": [
+                    {
+                      "description": "airport code",
+                      "key": "airportCode",
+                      "value": "ATL"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "x-correlation-id",
+                  "value": ""
+                }
+              ],
+              "cookie": [],
+              "body": "[\n  {\n    \"airport\": {\n      \"code\": \"string\"\n    },\n    \"turbulenceReport\": {\n      \"timestamp\": \"2005-10-25T04:36:00.732Z\",\n      \"severity\": \"severe\",\n      \"altitude\": {\n        \"feet\": 256,\n        \"meters\": 5681\n      },\n      \"durationMinutes\": 2096,\n      \"affectedArea\": {\n        \"radiusNm\": 9062,\n        \"center\": {\n          \"latitude\": 1557.5947276655722,\n          \"longitude\": 5885.292383553667\n        }\n      },\n      \"windSpeed\": {\n        \"knots\": 50,\n        \"mph\": 3350.803105906721\n      },\n      \"pilotReport\": \"string\",\n      \"weatherConditions\": {\n        \"temperatureCelsius\": 5687,\n        \"visibilityKm\": 11.218170471836153,\n        \"cloudCover\": \"string\"\n      }\n    }\n  },\n  {\n    \"airport\": {\n      \"code\": \"string\"\n    },\n    \"turbulenceReport\": {\n      \"timestamp\": \"1977-10-22T18:49:55.449Z\",\n      \"severity\": \"severe\",\n      \"altitude\": {\n        \"feet\": 1962,\n        \"meters\": 1698\n      },\n      \"durationMinutes\": 8763,\n      \"affectedArea\": {\n        \"radiusNm\": 2646,\n        \"center\": {\n          \"latitude\": 2695.5023474137984,\n          \"longitude\": 9546.778655551789\n        }\n      },\n      \"windSpeed\": {\n        \"knots\": 5101,\n        \"mph\": 7439.542224897202\n      },\n      \"pilotReport\": \"string\",\n      \"weatherConditions\": {\n        \"temperatureCelsius\": 1891,\n        \"visibilityKm\": 8458.732579054735,\n        \"cloudCover\": \"string\"\n      }\n    }\n  }\n]"
+            },
+            {
+              "name": "Unauthorized",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/turbulence?airportCode=ATL",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "turbulence"
+                  ],
+                  "query": [
+                    {
+                      "description": "airport code",
+                      "key": "airportCode",
+                      "value": "ATL"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"type\": \"https://en.wikipedia.org/wiki/HTTP_401\",\n  \"title\": \"Unauthorized\",\n  \"status\": 401,\n  \"detail\": \"Invalid or missing authentication credentials\",\n  \"instance\": \"urn:api:request:example-401\",\n  \"correlationId\": \"example-correlation-id\"\n}"
+            },
+            {
+              "name": "Forbidden",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/turbulence?airportCode=ATL",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "turbulence"
+                  ],
+                  "query": [
+                    {
+                      "description": "airport code",
+                      "key": "airportCode",
+                      "value": "ATL"
+                    }
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"type\": \"https://en.wikipedia.org/wiki/HTTP_403\",\n  \"title\": \"Forbidden\",\n  \"status\": 403,\n  \"detail\": \"Missing persmissions to access this resource\",\n  \"instance\": \"urn:api:request:example-403\",\n  \"correlationId\": \"example-correlation-id\"\n}"
+            },
+            {
+              "name": "Not found",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/turbulence?airportCode=ATL",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "turbulence"
+                  ],
+                  "query": [
+                    {
+                      "description": "airport code",
+                      "key": "airportCode",
+                      "value": "ATL"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"type\": \"https://en.wikipedia.org/wiki/HTTP_404\",\n  \"title\": \"Not Found\",\n  \"status\": 404,\n  \"detail\": \"The requested resource was not found.\",\n  \"instance\": \"urn:api:request:example-404\",\n  \"correlationId\": \"example-correlation-id\"\n}"
+            },
+            {
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/turbulence?airportCode=ATL",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "turbulence"
+                  ],
+                  "query": [
+                    {
+                      "description": "airport code",
+                      "key": "airportCode",
+                      "value": "ATL"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                },
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Content-Type",
+                  "value": ""
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"type\": \"https://en.wikipedia.org/wiki/HTTP_500\",\n  \"title\": \"Internal Server Error\",\n  \"status\": 500,\n  \"detail\": \"Internal Server Error\",\n  \"instance\": \"urn:api:request:example-500\",\n  \"correlationId\": \"example-correlation-id\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "forecast",
+      "item": [
+        {
+          "name": "Retrieve forecast",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/forecast?forecastCity=string",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "forecast"
+              ],
+              "query": [
+                {
+                  "key": "forecastCity",
+                  "value": "string"
+                }
+              ]
+            },
+            "description": "Returns a list of forecasts"
+          },
+          "response": [
+            {
+              "name": "Retrieve a forecast report",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/forecast?forecastCity=string",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "forecast"
+                  ],
+                  "query": [
+                    {
+                      "key": "forecastCity",
+                      "value": "string"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "x-correlation-id",
+                  "value": ""
+                }
+              ],
+              "cookie": [],
+              "body": "[\n  {\n    \"id\": \"d07bdab9-637e-4d2e-a962-12683c5d768f\",\n    \"city\": \"Ocala\",\n    \"country\": \"United States\",\n    \"humidity\": 84.6,\n    \"windSpeed\": [\n      {\n        \"Speed\": 40,\n        \"unit\": \"mph\",\n        \"direction\": \"SE\"\n      }\n    ],\n    \"weatherCondition\": \"Fog\",\n    \"sunriseTime\": \"11:57 AM\",\n    \"sunseTtime\": \"1:56 PM\",\n    \"visibility\": 4.84,\n    \"airPressure\": 1028.22,\n    \"temperature\": [\n      {\n        \"temperature\": 0.7,\n        \"temperatureUnit\": \"F\"\n      }\n    ],\n    \"turbulenceLevel\": \"Medium(M)\"\n  }\n]"
+            },
+            {
+              "name": "Unauthorized",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/forecast?forecastCity=string",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "forecast"
+                  ],
+                  "query": [
+                    {
+                      "key": "forecastCity",
+                      "value": "string"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"type\": \"https://en.wikipedia.org/wiki/HTTP_401\",\n  \"title\": \"Unauthorized\",\n  \"status\": 401,\n  \"detail\": \"Invalid or missing authentication credentials\",\n  \"instance\": \"urn:api:request:example-401\",\n  \"correlationId\": \"example-correlation-id\"\n}"
+            },
+            {
+              "name": "Forbidden",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/forecast?forecastCity=string",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "forecast"
+                  ],
+                  "query": [
+                    {
+                      "key": "forecastCity",
+                      "value": "string"
+                    }
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"type\": \"https://en.wikipedia.org/wiki/HTTP_403\",\n  \"title\": \"Forbidden\",\n  \"status\": 403,\n  \"detail\": \"Missing persmissions to access this resource\",\n  \"instance\": \"urn:api:request:example-403\",\n  \"correlationId\": \"example-correlation-id\"\n}"
+            },
+            {
+              "name": "Not found",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/forecast?forecastCity=string",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "forecast"
+                  ],
+                  "query": [
+                    {
+                      "key": "forecastCity",
+                      "value": "string"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"type\": \"https://en.wikipedia.org/wiki/HTTP_404\",\n  \"title\": \"Not Found\",\n  \"status\": 404,\n  \"detail\": \"The requested resource was not found.\",\n  \"instance\": \"urn:api:request:example-404\",\n  \"correlationId\": \"example-correlation-id\"\n}"
+            },
+            {
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/forecast?forecastCity=string",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "forecast"
+                  ],
+                  "query": [
+                    {
+                      "key": "forecastCity",
+                      "value": "string"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                },
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Content-Type",
+                  "value": ""
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"type\": \"https://en.wikipedia.org/wiki/HTTP_500\",\n  \"title\": \"Internal Server Error\",\n  \"status\": 500,\n  \"detail\": \"Internal Server Error\",\n  \"instance\": \"urn:api:request:example-500\",\n  \"correlationId\": \"example-correlation-id\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "metars",
+      "item": [
+        {
+          "name": "Retrieve METAR report",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/metars?airportCode=ATL",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "metars"
+              ],
+              "query": [
+                {
+                  "description": "airport code",
+                  "key": "airportCode",
+                  "value": "ATL"
+                }
+              ]
+            },
+            "description": "Returns a list of METAR reports"
+          },
+          "response": [
+            {
+              "name": "Retrieve METAR reports",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/metars?airportCode=ATL",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "metars"
+                  ],
+                  "query": [
+                    {
+                      "description": "airport code",
+                      "key": "airportCode",
+                      "value": "ATL"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "x-correlation-id",
+                  "value": ""
+                }
+              ],
+              "cookie": [],
+              "body": "[\n  {\n    \"code\": \"ATL\",\n    \"name\": \"Hartsfield-Jackson Atlanta International Airport\",\n    \"metar\": {\n      \"raw\": \"KATL 251800Z 31006KT 8SM BKN025 22/14 A2998 RMK AO2 SLP145\",\n      \"time\": \"251800Z\",\n      \"wind\": {\n        \"direction\": 310,\n        \"speed\": 6\n      },\n      \"visibility\": \"8SM\",\n      \"clouds\": [\n        {\n          \"type\": \"BKN\",\n          \"height\": 2500\n        }\n      ],\n      \"temperature\": 22,\n      \"dewpoint\": 14,\n      \"altimeter\": 29.98\n    }\n  }\n]"
+            },
+            {
+              "name": "Unauthorized",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/metars?airportCode=ATL",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "metars"
+                  ],
+                  "query": [
+                    {
+                      "description": "airport code",
+                      "key": "airportCode",
+                      "value": "ATL"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"type\": \"https://en.wikipedia.org/wiki/HTTP_401\",\n  \"title\": \"Unauthorized\",\n  \"status\": 401,\n  \"detail\": \"Invalid or missing authentication credentials\",\n  \"instance\": \"urn:api:request:example-401\",\n  \"correlationId\": \"example-correlation-id\"\n}"
+            },
+            {
+              "name": "Forbidden",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/metars?airportCode=ATL",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "metars"
+                  ],
+                  "query": [
+                    {
+                      "description": "airport code",
+                      "key": "airportCode",
+                      "value": "ATL"
+                    }
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"type\": \"https://en.wikipedia.org/wiki/HTTP_403\",\n  \"title\": \"Forbidden\",\n  \"status\": 403,\n  \"detail\": \"Missing persmissions to access this resource\",\n  \"instance\": \"urn:api:request:example-403\",\n  \"correlationId\": \"example-correlation-id\"\n}"
+            },
+            {
+              "name": "Not found",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/metars?airportCode=ATL",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "metars"
+                  ],
+                  "query": [
+                    {
+                      "description": "airport code",
+                      "key": "airportCode",
+                      "value": "ATL"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"type\": \"https://en.wikipedia.org/wiki/HTTP_404\",\n  \"title\": \"Not Found\",\n  \"status\": 404,\n  \"detail\": \"The requested resource was not found.\",\n  \"instance\": \"urn:api:request:example-404\",\n  \"correlationId\": \"example-correlation-id\"\n}"
+            },
+            {
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/metars?airportCode=ATL",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "metars"
+                  ],
+                  "query": [
+                    {
+                      "description": "airport code",
+                      "key": "airportCode",
+                      "value": "ATL"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                },
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Content-Type",
+                  "value": ""
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"type\": \"https://en.wikipedia.org/wiki/HTTP_500\",\n  \"title\": \"Internal Server Error\",\n  \"status\": 500,\n  \"detail\": \"Internal Server Error\",\n  \"instance\": \"urn:api:request:example-500\",\n  \"correlationId\": \"example-correlation-id\"\n}"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "x-api-key",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "test",
+      "script": {
+        "exec": [
+          "// Baseline 1: Status Code Check\r",
+          "pm.test(\"Status code is 200\", function () {\r",
+          "    pm.response.to.have.status(200);\r",
+          "});\r",
+          "\r",
+          "// Baseline 2: Response Time SLA\r",
+          "pm.test(\"Response time is under 500ms\", function () {\r",
+          "    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+          "});\r",
+          "\r",
+          "// Baseline 3: Content-Type Header Check\r",
+          "pm.test(\"Content-Type header is JSON\", function () {\r",
+          "    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+          "});"
+        ],
+        "type": "text/javascript"
+      }
+    }
+  ]
+}
