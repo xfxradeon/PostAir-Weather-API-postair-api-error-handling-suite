@@ -1,0 +1,9 @@
+# Use this workspace to collaborate
+workspace:
+  id: 8e283fa6-0814-4d8b-86be-a4dbab49a3a9
+
+localResources:
+  collections:
+    - ../PostAir Weather API.postman_collection.json
+  environments:
+    - ../PostAirTesting.postman_environment.json
