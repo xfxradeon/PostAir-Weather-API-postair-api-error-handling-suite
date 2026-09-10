@@ -1,26 +1,28 @@
-# PostAir Weather API - Automated Baseline Test Suite
+# PostAir Weather API – Automated Error Handling & Negative Test Suite
 
-An automated API regression test suite built in Postman, featuring hierarchical test inheritance, local mock service emulation, and batch execution via Postman Collection Runner and Newman CLI.
+An automated API test suite built in Postman, featuring hierarchical baseline validation, RFC 7807 Problem Details contract assertions, and local Node.js mock emulation for positive and negative API response paths.
 
-## Key Highlights
-- **Hierarchical Script Architecture:** Implemented universal baseline assertions (HTTP 200, SLA < 500ms, Content-Type verification) at the Collection level to run automatically across all endpoints without redundancy.
-- **Contract & Payload Validation:** Granular schema checks on targeted endpoints (`/airports`) verifying nested JSON structures, country properties, and query-match data integrity.
-- **Independent Mock Server:** Configured a lightweight Node.js mock service to simulate API responses for isolated regression verification.
-- **Automated Execution:** 100% test pass rate across all suite iterations.
+# Key Highlights
+* Hierarchical Test Architecture: Universal operational constraints (response time SLA < 500ms, generic JSON content negotiation) run at the Collection level, while endpoint-specific logic dynamically asserts response status and structure.
 
-## Test Architecture
-- `GET /airports` - Status, SLA, Content-Type, nested array structure, query param matching (`ATL`)
-- `GET /turbulence` - Status, SLA, Content-Type validation
-- `GET /forecast` - Status, SLA, Content-Type validation
-- `GET /metars` - Status, SLA, Content-Type validation
+* RFC 7807 Compliance: Granular contract checks on error payloads ensuring structured problem details (type, title, status, detail, instance, correlationId) and media type compliance (application/problem+json).
 
-## How to Run Locally
+* Comprehensive Negative Scenario Coverage: Emulates and validates specific failure modes including 401 Unauthorized, 403 Forbidden, 404 Not Found, and 500 Internal Server Error.
 
-### 1. Start the Mock Server
-```bash
-node mock-server.js
+* Isolated Local Mock Engine: Built an independent Node.js mock server that mirrors the PostAir API contract, supporting query and header triggers without cloud service dependencies.
 
-Run via Newman (CLI Automation)
+* Sensitive Data Protection: Verifies security controls by confirming that authentication headers and internal runtime traces are never exposed in error responses.
 
-npm install -g newman
-newman run PostAir_Weather_API.postman_collection.json -e PostAirTesting.postman_environment.json
+# Project Structure
+* Local Node.js API mock engine
+mock-server.js    
+* Postman test collection with hierarchical scripts
+PostAir_Weather_API.postman_collection.json  
+* Postman environment configuration
+PostAirTesting.postman_environment.json   
+
+# How to Run Locally
+
+* node mock-server.js
+* npm install -g newman
+* newman run PostAir_Weather_API.postman_collection.json -e PostAirTesting.postman_environment.json
