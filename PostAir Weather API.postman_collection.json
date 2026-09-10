@@ -19,7 +19,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Specific Test 1: Verify airport list array structure\npm.test(\"Response returns array with airport data\", function () {\n    const jsonData = pm.response.json();\n    pm.expect(jsonData).to.be.an(\"array\");\n    pm.expect(jsonData[0]).to.have.property(\"country\");\n    pm.expect(jsonData[0]).to.have.property(\"airports\");\n    pm.expect(jsonData[0].airports[0]).to.have.property(\"code\");\n});\n\n// Specific Test 2: Verify airport code query match\npm.test(\"Response contains requested airport code\", function () {\n    const jsonData = pm.response.json();\n    const airportCodes = jsonData[0].airports.map(a => a.code);\n    pm.expect(airportCodes).to.include(\"ATL\");\n});"
+                  "// Universal Checks\npm.test(\"Content-Type is present\", () => {\n    pm.response.to.have.header(\"Content-Type\");\n});\n\npm.test(\"Response time is less than 2000ms\", () => {\n    pm.expect(pm.response.responseTime).to.be.below(2000);\n});\n\n// ── 200 OK ────────────────────────────────────\nif (pm.response.code === 200) {\n    pm.test(\"Status code is 200\", () => {\n        pm.response.to.have.status(200);\n    });\n\n    pm.test(\"Response contains airport code ATL\", () => {\n        const jsonData = pm.response.json();\n        let found = false;\n        jsonData.forEach((item) => {\n            item.airports.forEach((airport) => {\n                if (airport.code === \"ATL\") {\n                    found = true;\n                }\n            });\n        });\n        pm.expect(found).to.be.true;\n    });\n}\n\n// ── 404 Not Found ─────────────────────────────\nif (pm.response.code === 404) {\n    pm.test(\"Status code is 404\", () => {\n        pm.response.to.have.status(404);\n    });\n\n    pm.test(\"Content-Type is problem+json\", () => {\n        const ct = pm.response.headers.get(\"Content-Type\");\n        pm.expect(ct).to.include(\"application/problem+json\");\n    });\n\n    pm.test(\"Body follows problemDetail schema\", () => {\n        const body = pm.response.json();\n        pm.expect(body).to.have.all.keys(\n            \"type\", \"title\", \"status\",\n            \"detail\", \"instance\", \"correlationId\"\n        );\n        pm.expect(body.status).to.equal(404);\n        pm.expect(body.title).to.equal(\"Not Found\");\n    });\n\n    pm.test(\"detail is descriptive\", () => {\n        const body = pm.response.json();\n        pm.expect(body.detail).to.equal(\n            \"The requested resource was not found.\"\n        );\n    });\n}\n\n// ── 401 Unauthorized ──────────────────────────\nif (pm.response.code === 401) {\n    pm.test(\"Status code is 401\", () => {\n        pm.response.to.have.status(401);\n    });\n\n    pm.test(\"Content-Type is problem+json\", () => {\n        const ct = pm.response.headers.get(\"Content-Type\");\n        pm.expect(ct).to.include(\"application/problem+json\");\n    });\n\n    pm.test(\"Body follows problemDetail schema\", () => {\n        const body = pm.response.json();\n        pm.expect(body).to.have.all.keys(\n            \"type\", \"title\", \"status\",\n            \"detail\", \"instance\", \"correlationId\"\n        );\n        pm.expect(body.status).to.equal(401);\n        pm.expect(body.title).to.equal(\"Unauthorized\");\n    });\n\n    pm.test(\"detail explains the auth failure\", () => {\n        const body = pm.response.json();\n        pm.expect(body.detail).to.equal(\n            \"Invalid or missing authentication credentials\"\n        );\n    });\n\n    pm.test(\"No sensitive data leaked\", () => {\n        const text = pm.response.text();\n        pm.expect(text).to.not.include(\"x-api-key\");\n    });\n}\n\n// ── 403 Forbidden ─────────────────────────────\nif (pm.response.code === 403) {\n    pm.test(\"Status code is 403\", () => {\n        pm.response.to.have.status(403);\n    });\n\n    pm.test(\"Content-Type is problem+json\", () => {\n        const ct = pm.response.headers.get(\"Content-Type\");\n        pm.expect(ct).to.include(\"application/problem+json\");\n    });\n\n    pm.test(\"Body follows problemDetail schema\", () => {\n        const body = pm.response.json();\n        pm.expect(body).to.have.all.keys(\n            \"type\", \"title\", \"status\",\n            \"detail\", \"instance\", \"correlationId\"\n        );\n        pm.expect(body.status).to.equal(403);\n        pm.expect(body.title).to.equal(\"Forbidden\");\n    });\n\n    pm.test(\"detail explains the permission issue\", () => {\n        const body = pm.response.json();\n        pm.expect(body.detail).to.equal(\n            \"Missing persmissions to access this resource\"\n        );\n    });\n}\n\n// ── 500 Internal Server Error ─────────────────\nif (pm.response.code === 500) {\n    pm.test(\"Status code is 500\", () => {\n        pm.response.to.have.status(500);\n    });\n\n    pm.test(\"Content-Type is problem+json\", () => {\n        const ct = pm.response.headers.get(\"Content-Type\");\n        pm.expect(ct).to.include(\"application/problem+json\");\n    });\n\n    pm.test(\"Body follows problemDetail schema\", () => {\n        const body = pm.response.json();\n        pm.expect(body).to.have.all.keys(\n            \"type\", \"title\", \"status\",\n            \"detail\", \"instance\", \"correlationId\"\n        );\n        pm.expect(body.status).to.equal(500);\n        pm.expect(body.title).to.equal(\"Internal Server Error\");\n        pm.expect(body.detail).to.equal(\"Internal Server Error\");\n    });\n\n    pm.test(\"No stack trace or internals exposed\", () => {\n        const text = pm.response.text();\n        pm.expect(text).to.not.include(\"at Object.\");\n        pm.expect(text).to.not.include(\"node_modules\");\n    });\n\n    pm.test(\"correlationId is present for debugging\", () => {\n        const body = pm.response.json();\n        pm.expect(body.correlationId).to.be.a(\"string\");\n        pm.expect(body.correlationId.length).to.be.above(0);\n    });\n}"
                 ]
               }
             }
@@ -53,7 +53,7 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/airports?countryName=United States&airportCode=ATL",
+              "raw": "{{baseUrl}}/airports?countryName=United States&airportCode=ZZZ",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -67,7 +67,8 @@
                 },
                 {
                   "key": "airportCode",
-                  "value": "ATL"
+                  "value": "ZZZ",
+                  "description": "airport code"
                 }
               ]
             },
@@ -1178,20 +1179,22 @@
       "listen": "test",
       "script": {
         "exec": [
-          "// Baseline 1: Status Code Check\r",
-          "pm.test(\"Status code is 200\", function () {\r",
-          "    pm.response.to.have.status(200);\r",
-          "});\r",
-          "\r",
-          "// Baseline 2: Response Time SLA\r",
+          "// Universal SLA\r",
           "pm.test(\"Response time is under 500ms\", function () {\r",
           "    pm.expect(pm.response.responseTime).to.be.below(500);\r",
           "});\r",
           "\r",
-          "// Baseline 3: Content-Type Header Check\r",
-          "pm.test(\"Content-Type header is JSON\", function () {\r",
-          "    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
-          "});"
+          "// Universal Content-Type: check for 'json' so it accepts both application/json and application/problem+json\r",
+          "pm.test(\"Content-Type header contains JSON\", function () {\r",
+          "    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"json\");\r",
+          "});\r",
+          "\r",
+          "// Only assert 200 when not performing an error test\r",
+          "if (pm.response.code !== 404 && pm.response.code !== 401 && pm.response.code !== 403) {\r",
+          "    pm.test(\"Status code is 200\", function () {\r",
+          "        pm.response.to.have.status(200);\r",
+          "    });\r",
+          "}"
         ],
         "type": "text/javascript"
       }
