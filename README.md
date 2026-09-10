@@ -1,7 +1,6 @@
 !\[API Tests](https://github.com/xfxradeon/PostAir-Weather-API-postair-api-error-handling-suite/actions/workflows/api-tests.yml/badge.svg)
 
-PostAir Weather API – Automated Error Handling \& Negative Test Suite
-===
+# PostAir Weather API – Automated Error Handling \& Negative Test Suite
 
 An automated API test suite built in Postman, featuring hierarchical baseline validation, RFC 7807 Problem Details contract assertions, and local Node.js mock emulation for positive and negative API response paths.
 
