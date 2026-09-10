@@ -27,16 +27,17 @@ jobs:
       - name: Start Mock Server
         run: |
           node mock-server.js &
-          sleep 4
+          sleep 3
 
       - name: Verify Mock Server Health
         run: |
-          curl -i http://localhost:3001/health || exit 1
+          curl -f http://localhost:3001/health || exit 1
 
       - name: Execute Postman Suite via Newman
         run: |
           newman run "PostAir Weather API.postman_collection.json" \
             -e "PostAirTesting.postman_environment.json" \
+            --env-var "baseUrl=localhost:3001" \
             --reporters cli,htmlextra \
             --reporter-htmlextra-export newman-report.html
 
