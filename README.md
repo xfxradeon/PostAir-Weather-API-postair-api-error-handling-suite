@@ -1,6 +1,8 @@
 # PostAir Weather API – Automated Error Handling & Regression Suite
 
 ![API Tests](https://github.com/xfxradeon/PostAir-Weather-API-postair-api-error-handling-suite/actions/workflows/api-tests.yml/badge.svg)
+![Status](https://img.shields.io/badge/Test%20Execution-Passed%20(100%25)-brightgreen)
+![Newman](https://img.shields.io/badge/Runner-Newman%20CLI-FF6C37?logo=postman&logoColor=white)
 
 An automated API test suite built in Postman, featuring hierarchical baseline assertions, RFC 7807 Problem Details schema validation, local Node.js mock service emulation, and a headless CI/CD execution pipeline powered by GitHub Actions and Newman.
 
